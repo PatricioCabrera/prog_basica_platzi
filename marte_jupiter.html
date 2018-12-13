@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tu peso en otro planeta</title>
+</head>
+<body>
+    <h1>Tu peso en otro planeta</h1>
+    <h3>En la tierra pesas distinto que en Marte o Jupiter</h3>
+    <script>
+        var peso = parseFloat(prompt("¿Cuál es tu peso?")); // Pedimos un ingreso de peso al usuario, parseFloat lo convierte de String a Float
+        var planeta = prompt("Elige tu planeta.\n Escribe Marte, o Jupiter").toUpperCase(); // Pedimos el ingreso del planeta al usuario, lo convertimos a mayúsculas
+
+        var g_tierra = 9.8; // Gravedad en la Tierra
+        var g_marte = 3.7; // Gravedad en Marte
+        var g_jupiter = 24.8; // Gravedad en Jupiter
+        var peso_final;
+
+        if (planeta == "MARTE")
+        {
+            peso_final = parseFloat(peso * g_marte / g_tierra).toFixed(2);
+            document.write("Tu peso en " + planeta + " es <strong>" + peso_final + " kilos</strong>");
+        }
+        else if (planeta == "JUPITER")
+        {
+            peso_final = parseFloat(peso * g_jupiter / g_tierra).toFixed(2);
+            document.write("Tu peso en " + planeta + " es <strong>" + peso_final + " kilos</strong>");
+        }
+        else
+        {
+            peso_final = 1000
+            document.write("<h3>No ingresaste datos válidos, tu peso entonces es de " + peso_final + "</h3>");
+        }
+    </script>
+</body>
+</html>
