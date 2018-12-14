@@ -22,12 +22,21 @@ lienzo.stroke();
 lienzo.closePath();
 //con closePath finalizamos, es como alejar el lápiz
 
-lienzo.beginPath(); 
-lienzo.strokeStyle = "blue";
-lienzo.moveTo(10, 50);
-lienzo.lineTo(100, 300);
-lienzo.lineTo(40, 240);
-lienzo.stroke();
-lienzo.closePath();
 
+//Cuando declaramos una función, se ve similar a cuando se declara una variable. Se pasan sus parámetros, y como en una condicional tenémos un bloque de código, que es lo que se va a repetir cada vez que se invoque a la función
+//Lo que hacemos en los parámetros es declarar variables, pero se declaran cada vez que se invocan. Cuando la función termina de ejecutarse las variables dejan de existir al llegar a la última línea
+function dibujarLinea(color,xinicial,yinicial,xfinal,yfinal)
+{
+    lienzo.beginPath();
+    lienzo.strokeStyle = color;
+    lienzo.moveTo(xinicial,yinicial);
+    lienzo.lineTo(xfinal,yfinal);
+    lienzo.stroke();
+    lienzo.closePath();
+}
+//La función puede ir en cualquier lugar.
+//el proceso de funcionamiento de JavaScript es leer todo el código primero, busca donde haya funciones, se colocan en la memoria. Luego el resto del código.
 
+//Una vez declarada la función no sucederá nada, se debe invocar.
+dibujarLinea("pink",10,300,220,10);
+dibujarLinea("yellow",300,10,10,220);
