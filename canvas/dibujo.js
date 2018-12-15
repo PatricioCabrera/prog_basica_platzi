@@ -1,47 +1,56 @@
-var d = document.getElementById("dibujito");
-var lienzo = d.getContext("2d"); 
+var texto = document.getElementById("texto_lineas");
+var boton = document.getElementById("botoncito");
+boton.addEventListener("click", dibujoPorClick ) /* dibujoPorClick sin parámetros porque no queremos que se ejecute la función ni bien es escrita, sino que le decimos como se llama. Para que se ejecute cuando sea llamada. Es decír que se ejecutará con el click en boton */
 
-var lineas = 120;
-var l;
-var yi, xf;
-var xi, yf;
+var dibujo = document.getElementById("dibujito");
+var ancho = dibujo.width;
+var papel = dibujo.getContext("2d"); 
+
 var rosado = "#FAA";
+
 
 function dibujarLinea(color,xinicial,yinicial,xfinal,yfinal)
 {
-    lienzo.beginPath();
-    lienzo.strokeStyle = color;
-    lienzo.moveTo(xinicial,yinicial);
-    lienzo.lineTo(xfinal,yfinal);
-    lienzo.stroke();
-    lienzo.closePath();
+    papel.beginPath();
+    papel.strokeStyle = color;
+    papel.moveTo(xinicial,yinicial);
+    papel.lineTo(xfinal,yfinal);
+    papel.stroke();
+    papel.closePath();
 }
 
-function dibujarCuadrado(color=rosado,xinicial=1,yinicial=1,xfinal=599,yfinal=1,xfinal2=599,yfinal2=599,xfinal3=1,yfinal3=599,xfinal4=1,yfinal4=1)
+function dibujarCuadrado(color=rosado,xinicial=1,yinicial=1,xfinal=ancho -1,yfinal=1,xfinal2=ancho -1,yfinal2=ancho -1,xfinal3=1,yfinal3=ancho -1,xfinal4=1,yfinal4=1)
 {
-    lienzo.beginPath();
-    lienzo.strokeStyle = color;
-    lienzo.moveTo(xinicial,yinicial);
-    lienzo.lineTo(xfinal,yfinal);
-    lienzo.lineTo(xfinal2,yfinal2);
-    lienzo.lineTo(xfinal3,yfinal3);
-    lienzo.lineTo(xfinal4,yfinal4);
-    lienzo.stroke();
-    lienzo.closePath();
+    papel.beginPath();
+    papel.strokeStyle = color;
+    papel.moveTo(xinicial,yinicial);
+    papel.lineTo(xfinal,yfinal);
+    papel.lineTo(xfinal2,yfinal2);
+    papel.lineTo(xfinal3,yfinal3);
+    papel.lineTo(xfinal4,yfinal4);
+    papel.stroke();
+    papel.closePath();
 }
 
-for(l = 0; l < lineas; l++)
+function dibujoPorClick()
 {
-    yi = 10 * l;
-    xf = 10 * (l + 1); 
-    xi = 10 * (l + 1);
-    yf = 10 * l;
-    dibujarLinea(rosado,0,yi,xf,599);
-    dibujarLinea(rosado,xi,0,599,yf);
-    console.log("linea " + l);
+    var lineas = parseFloat(texto.value);
+    var l;
+    var yi, xf;
+    var xi, yf; 
+    var espacio = ancho / lineas;
+    for(l = 0; l < lineas; l++)
+        {
+            yi = espacio * l;
+            xf = espacio * (l + 1); 
+            xi = espacio * (l + 1);
+            yf = espacio * l;
+            dibujarLinea(rosado,0,yi,xf,599);
+            dibujarLinea(rosado,xi,0,599,yf);
+            console.log("linea " + l);
+        }
+    dibujarCuadrado();
+    dibujarLinea(rosado, 1,1,599,599);
+    dibujarLinea(rosado, 599,1,1,599); 
 }
-
-dibujarCuadrado();
-dibujarLinea(rosado, 1,1,599,599);
-dibujarLinea(rosado, 599,1,1,599);
 
