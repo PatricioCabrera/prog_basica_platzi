@@ -1,118 +1,206 @@
-var vp = document.getElementById("villaplatzi"); //El canvas en html
-var papel = vp.getContext("2d"); // Traemos contexto 2d para el canvas
+var vp = document.getElementById("villaplatzi");
+var papel = vp.getContext("2d");
+document.addEventListener("keydown", moverLobo);
 
-// Creamos objetos literales con propiedades para cada una de las imágenes
+var xLobo = 150;
+var yLobo = 100;
+
+var xVaca = new Array();
+var yVaca = new Array();
+
+var xCerdo = new Array();
+var yCerdo = new Array();
+
+var xPollo = new Array();
+var yPollo = new Array();
+
+function moverLobo(e)
+{
+	var movimiento = 64;
+	var teclas =
+	{
+		LEFT: 37,
+		UP: 38,
+		RIGHT: 39,
+		DOWN: 40
+	}
+	switch(e.keyCode)
+	{
+		case teclas.LEFT:
+			xLobo = xLobo - movimiento;
+			dibujar(xLobo, yLobo);
+		break;
+		case teclas.UP:
+			yLobo = yLobo - movimiento;
+			dibujar(xLobo, yLobo);
+		break;
+		case teclas.RIGHT:
+			xLobo = xLobo + movimiento;
+			dibujar(xLobo, yLobo);
+		break;
+		case teclas.DOWN:
+			yLobo = yLobo + movimiento;
+			dibujar(xLobo, yLobo);
+		break;
+	}
+}
+
 var fondo =
 {
-    url: "tile.png",
-    cargaOK: false // cargaOK es para indicar que el elemento está cargado y listo para trabajar con el
-};
+	url: "tile.png",
+	carga: false
+}
 
-var vaca = 
+var lobo =
 {
-    url: "vaca.png",
-    cargaOK: false
-};
+	url: "lobo.png",
+	carga: false
+}
 
-var cerdo = 
+var vaca =
 {
-    url: "cerdo.png",
-    cargaOK: false
-};
+	url: "vaca.png",
+	carga: false
+}
 
-var pollo = 
+var pollo =
 {
-    url: "pollo.png",
-    cargaOK: false
-};
-//
+	url: "pollo.png",
+	carga: false
+}
 
-var cantidad = aleatorio(1, 5);
+var cerdo =
+{
+	url: "cerdo.png",
+	carga: false
+}
 
-fondo.imagen = new Image(); // Es como crear un objeto, es una clase = definición completa de un objeto. Un Image es el equivalente a una etiqueta IMG en HTML
-fondo.imagen.src = fondo.url; // Para cargar la fuente de la imagen le pasamos la url por el atributo .src que es una variable de la clase Image. Cuando se pasan estos datos se dispara el evento de carga en "load"
-fondo.imagen.addEventListener("load", cargarFondo); //Creamos la función para poder manipular la imagen cargada
+lobo.imagen = new Image();
+lobo.imagen.src = lobo.url;
+lobo.imagen.addEventListener("load", cargaLobo);
+
+fondo.imagen = new Image();
+fondo.imagen.src = fondo.url;
+fondo.imagen.addEventListener("load", cargaFondo);
 
 vaca.imagen = new Image();
 vaca.imagen.src = vaca.url;
-vaca.imagen.addEventListener("load", cargarVacas);
+vaca.imagen.addEventListener("load", cargaVaca);
 
 cerdo.imagen = new Image();
 cerdo.imagen.src = cerdo.url;
-cerdo.imagen.addEventListener("load", cargarCerdos);
+cerdo.imagen.addEventListener("load", cargaCerdo);
 
 pollo.imagen = new Image();
 pollo.imagen.src = pollo.url;
-pollo.imagen.addEventListener("load", cargarPollos);
+pollo.imagen.addEventListener("load", cargaPollo);
 
-function cargarFondo()
+function cargaLobo()
 {
-    fondo.cargaOK = true; // Le indicamos que cuando fondo.cargaOK se detecta en el evento "load" cargaOK es verdadero
-    dibujar();
+	lobo.carga = true;
+	dibujar();
 }
 
-function cargarVacas()
+function cargaFondo()
 {
-    vaca.cargaOK = true; // Le indicamos que cuando fondo.cargaOK se detecta en el evento "load" cargaOK es verdadero
-    dibujar();
+	fondo.carga = true;
+	dibujar();
 }
 
-function cargarCerdos()
+function cargaPollo()
 {
-    cerdo.cargaOK = true; // Le indicamos que cuando fondo.cargaOK se detecta en el evento "load" cargaOK es verdadero
-    dibujar();
+	pollo.carga = true;
+	mantenerPosicion();
 }
 
-function cargarPollos()
+function cargaCerdo()
 {
-    pollo.cargaOK = true; // Le indicamos que cuando fondo.cargaOK se detecta en el evento "load" cargaOK es verdadero
-    dibujar();
+	cerdo.carga = true;
+	mantenerPosicion();
+}
+
+function cargaVaca()
+{
+	vaca.carga = true;
+	mantenerPosicion();
+}
+
+function mantenerPosicion()
+{
+	if(vaca.carga)
+	{
+		var cantidad = aleatorio(1, 5);
+		for(var i=0; i<cantidad; i++)
+		{
+			var x = aleatorio(0, 6);
+			var y = aleatorio(0, 6);
+			x = x*70;
+			y = y*70;
+			xVaca[i] = x;
+			yVaca[i] = y; 		
+		}
+	}
+	if(cerdo.carga)
+	{
+		var cantidad = aleatorio(1, 5);
+		for(var i=0; i<cantidad; i++)
+		{
+			var x = aleatorio(0, 6);
+			var y = aleatorio(0, 6);
+			x = x*70;
+			y = y*70;
+			xCerdo[i] = x;
+			yCerdo[i] = y; 		
+		}
+	}
+	if(pollo.carga)
+	{
+		var cantidad = aleatorio(1, 10);
+		for(var i=0; i<cantidad; i++)
+		{
+			var x = aleatorio(0, 6);
+			var y = aleatorio(0, 6);
+			x = x*70;
+			y = y*70;
+			xPollo[i] = x;
+			yPollo[i] = y; 		
+		}
+	}
+	dibujar();
 }
 
 function dibujar()
 {
-    if(fondo.cargaOK) // No es necesario poner TRUE, ya que el if solo se ejecuta cuando algo es verdad, ya es dado por sentado
-    {
-        papel.drawImage(fondo.imagen, 0, 0);
-    }
-    if(vaca.cargaOK)
-    {
-        for(var v=0; v < cantidad; v++)
-        {
-            var x = aleatorio(0, 7);
-            var y = aleatorio(0, 7);
-            var x = x * 60;
-            var y = y * 60;
-            papel.drawImage(vaca.imagen, x,y)
-        }       
-    }
-    if(cerdo.cargaOK)
-    {
-        for(var v=0; v < cantidad; v++)
-        {
-            var x = aleatorio(0, 7);
-            var y = aleatorio(0, 7);
-            var x = x * 60;
-            var y = y * 60;
-            papel.drawImage(cerdo.imagen, x,y)
-        }     
-    }
-    if(pollo.cargaOK)
-    {
-        for(var v=0; v < cantidad; v++)
-        {
-            var x = aleatorio(0, 7);
-            var y = aleatorio(0, 7);
-            var x = x * 60;
-            var y = y * 60;
-            papel.drawImage(pollo.imagen, x,y)
-        }
-    }
+	if(fondo.carga)
+	{
+		papel.drawImage(fondo.imagen, 0, 0);
+	}
+	if(vaca.carga)
+	{
+		for(var i=0; i<10; i++){
+			papel.drawImage(vaca.imagen, xVaca[i], yVaca[i]);		
+		}
+	}
+	if(cerdo.carga)
+	{
+		for(var i=0; i<10; i++){
+			papel.drawImage(cerdo.imagen, xCerdo[i], yCerdo[i]);		
+		}
+	}
+	if(pollo.carga)
+	{
+		for(var i=0; i<10; i++){
+			papel.drawImage(pollo.imagen, xPollo[i], yPollo[i]);		
+		}
+	}
+	if(lobo.carga)
+	{
+		papel.drawImage(lobo.imagen, xLobo, yLobo)
+	}
 }
 
-function aleatorio(min, maxi)
+function aleatorio(max, min)
 {
-    var resultado;
-    resultado = Math.round(Math.random() * (maxi - min)) + min;
-    return resultado;
+	var numero_aleatorio = Math.floor(Math.random() * (max - min + 1)) + min;
+	return numero_aleatorio;
 }
