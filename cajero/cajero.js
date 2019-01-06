@@ -1,77 +1,67 @@
 class Billete
 {
-    constructor(v, c)
+    constructor(value, quantity)
     {
-        this.valor = v;
-        this.cantidad = c;
-        this.imagen = new Image();
-
-        this.imagen.src = imagenes[this.valor]
+        this.valor = value;
+        this.cantidad = quantity;
     }
 }
 
 function entregarDinero()
 {
-    var t = document.getElementById("dinero");
-    dinero = parseInt(t.value);
-    for(var bi of caja)
-    {
-        if (dinero > 0)
-        {
-            div = Math.floor(dinero / bi.valor);
-            console.log(div);
+    var textoRequerido = document.getElementById("requerido");
+    requerido = parseInt(textoRequerido.value);
 
-            if(div > bi.cantidad)
+    for(var billeteEnCaja of caja)
+    {
+        if(requerido > 0)
+        {
+
+            division = Math.floor(requerido / billeteEnCaja.valor);
+
+            if(division > billeteEnCaja.cantidad)
             {
-                papeles = bi.cantidad;
+                billetes = billeteEnCaja.cantidad;
             }
             else
             {
-                papeles = div;
+                billetes = division;
             }
 
-            entregado.push( new Billete(bi.valor, papeles) );
-            dinero = dinero -  (bi.valor * papeles);
+            entregado.push( new Billete(billeteEnCaja.valor, billetes));
+            requerido = requerido - (billeteEnCaja.valor * billetes);
         }
     }
 
-    if(dinero > 0)
+    if(requerido > 0)
     {
-        resultado.innerHTML = "No tengo dinero :("
+        entregado = 0;
+        resultado.innerHTML = "No se puede entregar el dinero solicitado";
     }
     else
     {
-        for(var e of entregado)
+        for( var billeteEntregado of entregado)
         {
-            if(e.cantidad > 0)
+            if (billeteEntregado.cantidad > 0)
             {
-                document.body.appendChild(e.imagen * e.cantidad);
-            }          
+                resultado.innerHTML += billeteEntregado.cantidad + " billetes de $" + billeteEntregado.valor + "<br>";
+            }
         }
     }
-
 }
 
-var imagenes = [];
-imagenes["100"] = "100.png";
-imagenes["50"] = "50.png";
-imagenes["20"] = "20.png";
-imagenes["10"] = "10.png";
-imagenes["5"] = "5.png";
-
-
 var caja = [];
-caja.push( new Billete(100, 5));
-caja.push( new Billete(50, 10));
-caja.push( new Billete(20, 5));
-caja.push( new Billete(10, 10));
-caja.push( new Billete(5, 5));
-
+caja[0] = ( new Billete(500, 25))
+caja[1] = ( new Billete(100, 50));
+caja[2] = ( new Billete(50, 100));
+caja[3] = ( new Billete(20, 250));
+caja[4] = ( new Billete(10, 250));
 var entregado = [];
-var dinero = 0;
-var div = 0;
-var papeles = 0;
+var requerido;
+var division;
+var billetes;
 
 var resultado = document.getElementById("resultado");
+
 var boton = document.getElementById("extraer");
 boton.addEventListener("click", entregarDinero);
