@@ -59,7 +59,7 @@ caja[4] = ( new Billete(10, 250));
 var entregado = [];
 var requerido;
 var division;
-var papeles;
+var billetes;
 
 var resultado = document.getElementById("resultado");
 
